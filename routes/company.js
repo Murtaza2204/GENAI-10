@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const companies = require("../data/companies.json");
 
+router.get("/", (req, res) => {
+  return res.json({
+    success: true,
+    data: companies,
+    error: null
+  });
+});
+
 router.get("/:name", (req, res) => {
   try {
     const name = req.params.name.toLowerCase();
@@ -18,7 +26,6 @@ router.get("/:name", (req, res) => {
       });
     }
 
-    // Split response nicely for frontend
     return res.json({
       success: true,
       data: {
@@ -32,7 +39,6 @@ router.get("/:name", (req, res) => {
       },
       error: null
     });
-
   } catch (err) {
     return res.json({
       success: false,
