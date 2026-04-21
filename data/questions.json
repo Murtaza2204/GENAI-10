@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "category": "behavioral",
+    "question": "Tell me about a time you had to work in a team with conflicting opinions. How did you handle it?",
+    "difficulty": "medium",
+    "tags": ["teamwork", "communication"]
+  },
+  {
+    "id": 2,
+    "category": "technical",
+    "question": "Explain the difference between let, const, and var in JavaScript.",
+    "difficulty": "easy",
+    "tags": ["javascript", "fundamentals"]
+  },
+  {
+    "id": 3,
+    "category": "behavioral",
+    "question": "Describe a project where you took initiative and led without being asked. What was the outcome?",
+    "difficulty": "medium",
+    "tags": ["leadership", "initiative"]
+  },
+  {
+    "id": 4,
+    "category": "technical",
+    "question": "How would you optimize a slow database query?",
+    "difficulty": "hard",
+    "tags": ["database", "optimization"]
+  },
+  {
+    "id": 5,
+    "category": "behavioral",
+    "question": "Tell me about your biggest failure and what you learned from it.",
+    "difficulty": "hard",
+    "tags": ["growth", "learning"]
+  }
+]
