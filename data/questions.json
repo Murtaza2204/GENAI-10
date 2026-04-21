@@ -1,0 +1,28 @@
+{
+  "aptitude": [
+    {
+      "question": "What is the capital of France?",
+      "options": ["London", "Berlin", "Paris", "Madrid"],
+      "answer": "C",
+      "explanation": "Paris is the capital of France."
+    },
+    {
+      "question": "What is 5 + 3?",
+      "options": ["6", "7", "8", "9"],
+      "answer": "C",
+      "explanation": "5 + 3 equals 8."
+    }
+  ],
+  "coding": [
+    {
+      "question": "Write a function to reverse a string in JavaScript.",
+      "answer": "function reverseString(str) { return str.split('').reverse().join(''); }",
+      "explanation": "Split the string into an array, reverse it, and join back."
+    },
+    {
+      "question": "What is the output of console.log(1 + '1') in JavaScript?",
+      "answer": "11",
+      "explanation": "JavaScript concatenates string and number."
+    }
+  ]
+}
