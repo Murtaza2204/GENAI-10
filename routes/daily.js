@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const questionService = require('../services/questionService');
+const { generatePracticeQuestion } = require('../services/aiService');
 
 // GET /daily - Get daily question
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const question = questionService.getRandomQuestion();
+    const question = await generatePracticeQuestion();
 
     if (!question) {
       return res.status(404).json({

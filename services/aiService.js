@@ -86,8 +86,33 @@ Score should be 1-10. Return ONLY valid JSON.`;
   }
 }
 
+async function generatePracticeQuestion() {
+  const prompt = `Generate one placement interview question in JSON format.
+
+Return ONLY valid JSON with these fields:
+{
+  "category": "technical or behavioral",
+  "question": "one clear interview question",
+  "difficulty": "easy, medium, or hard",
+  "tags": ["2 to 4 short tags"]
+}`;
+
+  try {
+    const response = await callOpenAI(prompt, 120);
+    const jsonMatch = response.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+    throw new Error('Invalid response format');
+  } catch (error) {
+    console.error('Question generation error:', error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   callOpenAI,
   getResumeFeedback,
   getInterviewFeedback,
+  generatePracticeQuestion,
 };

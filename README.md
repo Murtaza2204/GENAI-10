@@ -36,6 +36,7 @@ Update `.env` file with your credentials:
 ```
 OPENAI_API_KEY=your_openai_api_key_here
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+API_BASE_URL=https://your-public-domain.com
 PORT=3000
 ```
 

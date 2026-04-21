@@ -1,7 +1,21 @@
 const { Telegraf } = require('telegraf');
+const axios = require('axios');
+const pdfParse = require('pdf-parse');
+const { getResumeFeedback, getInterviewFeedback, generatePracticeQuestion } = require('../services/aiService');
+
+const API_BASE_URL = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+const userState = new Map();
+
+if (!process.env.TELEGRAM_BOT_TOKEN) {
+  console.warn('TELEGRAM_BOT_TOKEN is missing, Telegram bot is disabled');
+  module.exports = {
+    launch: async () => {},
+    stop: () => {},
+  };
+  return;
+}
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-const API_BASE_URL = `http://localhost:${process.env.PORT || 3000}`;
 
 // Start command
 bot.start((ctx) => {
@@ -23,18 +37,28 @@ bot.help((ctx) => {
 
 // Resume feedback
 bot.command('resume', async (ctx) => {
-  ctx.reply('Please share your resume text. Send it as a message.');
+  userState.set(ctx.from.id, { mode: 'resume' });
+  ctx.reply('Send your resume as a PDF file and I will analyze it.');
 });
 
 // Interview feedback
 bot.command('interview', async (ctx) => {
-  ctx.reply('Share the interview question:');
+  try {
+    const question = await generatePracticeQuestion();
+    userState.set(ctx.from.id, { mode: 'interview', question });
+    ctx.reply(
+      `Question (${question.difficulty}):\n\n${question.question}\n\n` +
+      `Reply with your answer in text.`
+    );
+  } catch (error) {
+    ctx.reply('Error generating interview question');
+  }
 });
 
 // Daily question
 bot.command('daily', async (ctx) => {
   try {
-    const response = await require('axios').get(`${API_BASE_URL}/daily`);
+    const response = await axios.get(`${API_BASE_URL}/daily`);
     if (response.data.success) {
       const q = response.data.data;
       ctx.reply(
@@ -50,7 +74,7 @@ bot.command('daily', async (ctx) => {
 // Companies
 bot.command('companies', async (ctx) => {
   try {
-    const response = await require('axios').get(`${API_BASE_URL}/company`);
+    const response = await axios.get(`${API_BASE_URL}/company`);
     if (response.data.success) {
       const companies = response.data.data;
       const list = companies.map(c => `${c.name} (${c.industry})`).join('\n');
@@ -58,6 +82,57 @@ bot.command('companies', async (ctx) => {
     }
   } catch (error) {
     ctx.reply('Error fetching companies');
+  }
+});
+
+bot.on('document', async (ctx) => {
+  const state = userState.get(ctx.from.id);
+  if (!state || state.mode !== 'resume') {
+    return ctx.reply('Use /resume first, then send a PDF file.');
+  }
+
+  try {
+    const file = ctx.message.document;
+    if (file.mime_type !== 'application/pdf') {
+      return ctx.reply('Please send a PDF file.');
+    }
+
+    const link = await ctx.telegram.getFileLink(file.file_id);
+    const response = await axios.get(link.href, { responseType: 'arraybuffer' });
+    const parsed = await pdfParse(Buffer.from(response.data));
+    const feedback = await getResumeFeedback(parsed.text);
+
+    userState.delete(ctx.from.id);
+
+    ctx.reply(
+      `Resume analysis:\n\n` +
+      `Strengths: ${feedback.strengths.join('; ')}\n` +
+      `Weaknesses: ${feedback.weaknesses.join('; ')}\n` +
+      `Suggestions: ${feedback.suggestions.join('; ')}\n` +
+      `Missing keywords: ${feedback.missingKeywords.join('; ')}`
+    );
+  } catch (error) {
+    ctx.reply('Error analyzing resume PDF');
+  }
+});
+
+bot.on('text', async (ctx) => {
+  const state = userState.get(ctx.from.id);
+  if (!state || state.mode !== 'interview') {
+    return;
+  }
+
+  try {
+    const feedback = await getInterviewFeedback(state.question.question, ctx.message.text);
+    userState.delete(ctx.from.id);
+
+    ctx.reply(
+      `Feedback:\n\n${feedback.feedback}\n\n` +
+      `Score: ${feedback.score}/10\n` +
+      `Tips: ${feedback.improvementTips.join('; ')}`
+    );
+  } catch (error) {
+    ctx.reply('Error analyzing your answer');
   }
 });
 
