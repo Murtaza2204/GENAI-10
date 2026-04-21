@@ -6,7 +6,8 @@ let questions = null;
 function loadQuestions() {
   if (!questions) {
     const filePath = path.join(__dirname, '../data/questions.json');
-    questions = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const data = fs.readFileSync(filePath, 'utf8');
+    questions = JSON.parse(data);
   }
   return questions;
 }
@@ -25,7 +26,17 @@ function getDailyQuestions() {
   return { aptitude, coding };
 }
 
+function getQuestionById(id) {
+  const q = loadQuestions();
+  for (const type of ['aptitude', 'coding']) {
+    const question = q[type].find(q => q.id === id);
+    if (question) return question;
+  }
+  return null;
+}
+
 module.exports = {
   getDailyQuestions,
-  getRandomQuestion
+  getRandomQuestion,
+  getQuestionById
 };

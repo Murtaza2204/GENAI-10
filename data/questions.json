@@ -1,28 +1,136 @@
 {
   "aptitude": [
     {
-      "question": "What is the capital of France?",
-      "options": ["London", "Berlin", "Paris", "Madrid"],
-      "answer": "C",
-      "explanation": "Paris is the capital of France."
+      "id": "apt1",
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5", "6"],
+      "answer": "4",
+      "explanation": "Basic addition: 2 + 2 = 4"
     },
     {
-      "question": "What is 5 + 3?",
-      "options": ["6", "7", "8", "9"],
-      "answer": "C",
-      "explanation": "5 + 3 equals 8."
+      "id": "apt2",
+      "question": "What is the square root of 16?",
+      "options": ["2", "4", "8", "16"],
+      "answer": "4",
+      "explanation": "The square root of 16 is 4, since 4 * 4 = 16"
+    },
+    {
+      "id": "apt3",
+      "question": "What is 10% of 200?",
+      "options": ["10", "20", "30", "200"],
+      "answer": "20",
+      "explanation": "10% of 200 is 0.1 * 200 = 20"
+    },
+    {
+      "id": "apt4",
+      "question": "Which planet is known as the Red Planet?",
+      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+      "answer": "Mars",
+      "explanation": "Mars is called the Red Planet due to its reddish appearance"
+    },
+    {
+      "id": "apt5",
+      "question": "What is the capital of France?",
+      "options": ["London", "Berlin", "Paris", "Rome"],
+      "answer": "Paris",
+      "explanation": "Paris is the capital and largest city of France"
+    },
+    {
+      "id": "apt6",
+      "question": "What is 15 divided by 3?",
+      "options": ["3", "5", "10", "15"],
+      "answer": "5",
+      "explanation": "15 ÷ 3 = 5"
+    },
+    {
+      "id": "apt7",
+      "question": "Which is the largest ocean on Earth?",
+      "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+      "answer": "Pacific",
+      "explanation": "The Pacific Ocean is the largest ocean covering about 46% of the Earth's water surface"
+    },
+    {
+      "id": "apt8",
+      "question": "What is the chemical symbol for water?",
+      "options": ["H2O", "CO2", "O2", "NaCl"],
+      "answer": "H2O",
+      "explanation": "Water is composed of two hydrogen atoms and one oxygen atom"
+    },
+    {
+      "id": "apt9",
+      "question": "What is 7 * 8?",
+      "options": ["54", "56", "58", "60"],
+      "answer": "56",
+      "explanation": "7 multiplied by 8 equals 56"
+    },
+    {
+      "id": "apt10",
+      "question": "Which gas do plants absorb from the atmosphere?",
+      "options": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+      "answer": "Carbon Dioxide",
+      "explanation": "Plants use carbon dioxide during photosynthesis"
     }
   ],
   "coding": [
     {
+      "id": "code1",
       "question": "Write a function to reverse a string in JavaScript.",
       "answer": "function reverseString(str) { return str.split('').reverse().join(''); }",
-      "explanation": "Split the string into an array, reverse it, and join back."
+      "explanation": "Split the string into an array of characters, reverse the array, and join back into a string"
     },
     {
-      "question": "What is the output of console.log(1 + '1') in JavaScript?",
-      "answer": "11",
-      "explanation": "JavaScript concatenates string and number."
+      "id": "code2",
+      "question": "Write a function to check if a number is prime in Python.",
+      "answer": "def is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True",
+      "explanation": "Check divisibility from 2 to square root of n"
+    },
+    {
+      "id": "code3",
+      "question": "Write a function to find the maximum element in an array in Java.",
+      "answer": "public static int findMax(int[] arr) {\n    int max = arr[0];\n    for (int i = 1; i < arr.length; i++) {\n        if (arr[i] > max) {\n            max = arr[i];\n        }\n    }\n    return max;\n}",
+      "explanation": "Iterate through the array and keep track of the maximum value"
+    },
+    {
+      "id": "code4",
+      "question": "Write a function to calculate factorial in C++.",
+      "answer": "int factorial(int n) {\n    if (n == 0 || n == 1) return 1;\n    return n * factorial(n - 1);\n}",
+      "explanation": "Recursive function to calculate factorial"
+    },
+    {
+      "id": "code5",
+      "question": "Write a function to check if a string is a palindrome in JavaScript.",
+      "answer": "function isPalindrome(str) {\n    const reversed = str.split('').reverse().join('');\n    return str === reversed;\n}",
+      "explanation": "Compare the string with its reverse"
+    },
+    {
+      "id": "code6",
+      "question": "Write a function to sort an array in ascending order in Python.",
+      "answer": "def sort_array(arr):\n    return sorted(arr)",
+      "explanation": "Use Python's built-in sorted function"
+    },
+    {
+      "id": "code7",
+      "question": "Write a function to find the length of a linked list in Java.",
+      "answer": "public int getLength(Node head) {\n    int length = 0;\n    Node current = head;\n    while (current != null) {\n        length++;\n        current = current.next;\n    }\n    return length;\n}",
+      "explanation": "Traverse the linked list and count nodes"
+    },
+    {
+      "id": "code8",
+      "question": "Write a function to merge two sorted arrays in C#.",
+      "answer": "public static int[] MergeSortedArrays(int[] arr1, int[] arr2) {\n    return arr1.Concat(arr2).OrderBy(x => x).ToArray();\n}",
+      "explanation": "Concatenate arrays and sort the result"
+    },
+    {
+      "id": "code9",
+      "question": "Write a function to remove duplicates from an array in JavaScript.",
+      "answer": "function removeDuplicates(arr) {\n    return [...new Set(arr)];\n}",
+      "explanation": "Use Set to remove duplicates and spread back to array"
+    },
+    {
+      "id": "code10",
+      "question": "Write a function to calculate the sum of digits in a number in Python.",
+      "answer": "def sum_of_digits(n):\n    return sum(int(digit) for digit in str(n))",
+      "explanation": "Convert number to string, iterate digits, sum them"
     }
   ]
 }
