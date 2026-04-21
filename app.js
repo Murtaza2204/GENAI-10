@@ -1,92 +1,62 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-require("dotenv").config();
+require('dotenv').config();
+const express = require('express');
+const resumeRoutes = require('./routes/resume');
+const interviewRoutes = require('./routes/interview');
+const dailyRoutes = require('./routes/daily');
+const companyRoutes = require('./routes/company');
+const bot = require('./bot/bot');
 
 const app = express();
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
-// ================= IMPORT ROUTES =================
+// Middleware
+app.use(express.json());
 
-// Wrap imports in try-catch so server doesn't crash if teammate code is broken
-let dailyRoutes, resumeRoutes, interviewRoutes;
+// Routes
+app.use('/resume', resumeRoutes);
+app.use('/interview', interviewRoutes);
+app.use('/daily', dailyRoutes);
+app.use('/company', companyRoutes);
 
-try {
-  dailyRoutes = require("./routes/daily");
-} catch (e) {
-  console.log("daily route missing, using fallback");
-}
-
-try {
-  resumeRoutes = require("./routes/resume");
-} catch (e) {
-  console.log("resume route missing, using fallback");
-}
-
-try {
-  interviewRoutes = require("./routes/interview");
-} catch (e) {
-  console.log("interview route missing, using fallback");
-}
-
-// Your route (must work)
-const companyRoutes = require("./routes/company");
-
-// ================= MOUNT ROUTES =================
-
-if (dailyRoutes) app.use("/daily", dailyRoutes);
-else {
-  app.get("/daily", (req, res) => {
-    res.json({
-      success: true,
-      data: {
-        aptitude: { question: "Fallback aptitude Q", answer: "A" },
-        coding: { question: "Fallback coding Q", answer: "Use loops" }
-      },
-      error: null
-    });
+// Health check
+app.get('/health', (req, res) => {
+  res.json({
+    success: true,
+    data: { status: 'Server is running' },
+    error: null,
   });
-}
-
-if (resumeRoutes) app.use("/resume", resumeRoutes);
-else {
-  app.post("/resume", (req, res) => {
-    res.json({
-      success: true,
-      data: {
-        feedback: "Resume analysis service not available yet"
-      },
-      error: null
-    });
-  });
-}
-
-if (interviewRoutes) app.use("/interview", interviewRoutes);
-else {
-  app.post("/interview", (req, res) => {
-    res.json({
-      success: true,
-      data: {
-        feedback: "Interview service not available yet",
-        score: 5
-      },
-      error: null
-    });
-  });
-}
-
-// Your feature
-app.use("/company", companyRoutes);
-
-// ================= HEALTH CHECK =================
-
-app.get("/", (req, res) => {
-  res.send("Placement Prep Bot Backend Running 🚀");
 });
 
-// ================= START SERVER =================
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    data: null,
+    error: 'Route not found',
+  });
+});
 
-const PORT = 3000;
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({
+    success: false,
+    data: null,
+    error: 'Internal server error',
+  });
+});
 
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Start Telegram bot
+bot.launch();
+console.log('Telegram bot started');
+
+// Handle shutdown
+process.on('SIGINT', () => {
+  bot.stop();
+  process.exit(0);
 });

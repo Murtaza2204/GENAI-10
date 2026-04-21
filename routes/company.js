@@ -2,17 +2,15 @@ const express = require("express");
 const router = express.Router();
 const companies = require("../data/companies.json");
 
-// GET /company/TCS
 router.get("/:name", (req, res) => {
   try {
-    let name = req.params.name;
+    const name = req.params.name.toLowerCase();
 
-    // Normalize input (VERY IMPORTANT)
-    name = name.toUpperCase();
+    const company = companies.find(
+      (c) => c.name.toLowerCase() === name
+    );
 
-    const data = companies[name];
-
-    if (!data) {
+    if (!company) {
       return res.json({
         success: false,
         data: null,
@@ -20,11 +18,21 @@ router.get("/:name", (req, res) => {
       });
     }
 
+    // Split response nicely for frontend
     return res.json({
       success: true,
-      data: data,
+      data: {
+        info: {
+          name: company.name,
+          industry: company.industry,
+          difficulty: company.difficulty,
+          focusAreas: company.focusAreas
+        },
+        aptitudeQuestions: company.aptitudeQuestions || []
+      },
       error: null
     });
+
   } catch (err) {
     return res.json({
       success: false,

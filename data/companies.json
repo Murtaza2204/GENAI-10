@@ -1,26 +1,45 @@
-{
-  "TCS": {
-    "topics": ["Aptitude", "OOP", "SQL"],
-    "questions": [
-      "What is normalization?",
-      "Explain OOP principles",
-      "Difference between stack and queue"
+[
+  {
+    "id": 1,
+    "name": "Google",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "System Design", "Problem Solving"],
+    "aptitudeQuestions": [
+      {
+        "question": "Find the missing number in series: 2, 6, 12, 20, ?",
+        "answer": "30"
+      },
+      {
+        "question": "What is time complexity of binary search?",
+        "answer": "O(log n)"
+      }
     ]
   },
-  "INFOSYS": {
-    "topics": ["DSA", "DBMS"],
-    "questions": [
-      "What is a linked list?",
-      "What is indexing in DB?",
-      "Explain recursion"
+  {
+    "id": 2,
+    "name": "Amazon",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "OOP", "System Design"],
+    "aptitudeQuestions": [
+      {
+        "question": "What is a stack?",
+        "answer": "LIFO data structure"
+      }
     ]
   },
-  "STARTUP": {
-    "topics": ["System Design", "DSA"],
-    "questions": [
-      "Design a URL shortener",
-      "Find cycle in graph",
-      "How would you scale a chat app?"
+  {
+    "id": 5,
+    "name": "TCS",
+    "industry": "IT Services",
+    "difficulty": "easy",
+    "focusAreas": ["Basics", "SQL", "General Knowledge"],
+    "aptitudeQuestions": [
+      {
+        "question": "What is 10% of 200?",
+        "answer": "20"
+      }
     ]
   }
-}
+]
