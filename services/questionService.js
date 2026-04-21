@@ -1,42 +1,53 @@
 const fs = require('fs');
 const path = require('path');
 
-let questions = null;
+const questionsFilePath = path.join(__dirname, '../data/questions.json');
 
-function loadQuestions() {
-  if (!questions) {
-    const filePath = path.join(__dirname, '../data/questions.json');
-    const data = fs.readFileSync(filePath, 'utf8');
-    questions = JSON.parse(data);
+// Read all questions
+function getAllQuestions() {
+  try {
+    const data = fs.readFileSync(questionsFilePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading questions:', error.message);
+    return [];
   }
-  return questions;
 }
 
-function getRandomQuestion(type) {
-  const q = loadQuestions();
-  const list = q[type];
-  if (!list || list.length === 0) return null;
-  const randomIndex = Math.floor(Math.random() * list.length);
-  return list[randomIndex];
+// Get random question
+function getRandomQuestion() {
+  const questions = getAllQuestions();
+  if (questions.length === 0) return null;
+  return questions[Math.floor(Math.random() * questions.length)];
 }
 
-function getDailyQuestions() {
-  const aptitude = getRandomQuestion('aptitude');
-  const coding = getRandomQuestion('coding');
-  return { aptitude, coding };
+// Get questions by category
+function getQuestionsByCategory(category) {
+  const questions = getAllQuestions();
+  return questions.filter((q) => q.category === category);
 }
 
-function getQuestionById(id) {
-  const q = loadQuestions();
-  for (const type of ['aptitude', 'coding']) {
-    const question = q[type].find(q => q.id === id);
-    if (question) return question;
+// Add a new question
+function addQuestion(question) {
+  try {
+    const questions = getAllQuestions();
+    const newQuestion = {
+      id: Date.now(),
+      ...question,
+      createdAt: new Date(),
+    };
+    questions.push(newQuestion);
+    fs.writeFileSync(questionsFilePath, JSON.stringify(questions, null, 2));
+    return newQuestion;
+  } catch (error) {
+    console.error('Error adding question:', error.message);
+    throw error;
   }
-  return null;
 }
 
 module.exports = {
-  getDailyQuestions,
+  getAllQuestions,
   getRandomQuestion,
-  getQuestionById
+  getQuestionsByCategory,
+  addQuestion,
 };

@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Google",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "System Design", "Problem Solving"]
+  },
+  {
+    "id": 2,
+    "name": "Amazon",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "OOP", "System Design"]
+  },
+  {
+    "id": 3,
+    "name": "Microsoft",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "C++/C#", "Problem Solving"]
+  },
+  {
+    "id": 4,
+    "name": "Facebook/Meta",
+    "industry": "Technology",
+    "difficulty": "hard",
+    "focusAreas": ["DSA", "System Design", "Graph Algorithms"]
+  },
+  {
+    "id": 5,
+    "name": "TCS",
+    "industry": "IT Services",
+    "difficulty": "easy",
+    "focusAreas": ["Basics", "SQL", "General Knowledge"]
+  }
+]

@@ -1,55 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const { getDailyQuestions, getQuestionById } = require('../services/questionService');
+const questionService = require('../services/questionService');
 
+// GET /daily - Get daily question
 router.get('/', (req, res) => {
   try {
-    const data = getDailyQuestions();
-    if (!data.aptitude || !data.coding) {
-      return res.json({
-        success: false,
-        data: null,
-        error: "Insufficient questions available"
-      });
-    }
-    res.json({
-      success: true,
-      data,
-      error: null
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      data: null,
-      error: error.message
-    });
-  }
-});
+    const question = questionService.getRandomQuestion();
 
-router.get('/question/:id', (req, res) => {
-  try {
-    const { id } = req.params;
-    const question = getQuestionById(id);
     if (!question) {
-      return res.json({
+      return res.status(404).json({
         success: false,
         data: null,
-        error: "Question not found"
+        error: 'No questions available',
       });
     }
-    res.json({
+
+    return res.status(200).json({
       success: true,
-      data: {
-        answer: question.answer,
-        explanation: question.explanation
-      },
-      error: null
+      data: question,
+      error: null,
     });
   } catch (error) {
-    res.json({
+    console.error('Daily route error:', error.message);
+    return res.status(500).json({
       success: false,
       data: null,
-      error: error.message
+      error: 'Failed to fetch daily question',
     });
   }
 });
