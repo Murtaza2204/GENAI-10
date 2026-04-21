@@ -4,8 +4,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const recentPracticeQuestions = [];
+const RECENT_QUESTION_LIMIT = 12;
+let nextInterviewCategory = 'dsa';
+
 // Centralized function to call OpenAI API
-async function callOpenAI(prompt, maxTokens = 300) {
+async function callOpenAI(prompt, maxTokens = 300, options = {}) {
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -21,6 +25,7 @@ async function callOpenAI(prompt, maxTokens = 300) {
       ],
       max_tokens: maxTokens,
       temperature: 0.7,
+      ...options,
     });
 
     return response.choices[0].message.content;
@@ -86,22 +91,103 @@ Score should be 1-10. Return ONLY valid JSON.`;
   }
 }
 
+function rememberPracticeQuestion(question) {
+  if (!question) {
+    return;
+  }
+
+  recentPracticeQuestions.push(question);
+
+  while (recentPracticeQuestions.length > RECENT_QUESTION_LIMIT) {
+    recentPracticeQuestions.shift();
+  }
+}
+
+function buildRecentQuestionBlock() {
+  return recentPracticeQuestions.length > 0
+    ? recentPracticeQuestions.map((item, index) => `${index + 1}. ${item}`).join('\n')
+    : 'None yet';
+}
+
 async function generatePracticeQuestion() {
-  const prompt = `Generate one placement interview question in JSON format.
+  const recentList = buildRecentQuestionBlock();
+
+  const prompt = `Generate one NEW placement question in JSON format.
+
+Do not repeat any of these recent questions:
+${recentList}
 
 Return ONLY valid JSON with these fields:
 {
   "category": "technical or behavioral",
+  "question": "one clear question",
+  "difficulty": "easy, medium, or hard",
+  "tags": ["2 to 4 short tags"]
+}
+
+Rules:
+- Ask a fresh question that is meaningfully different from the recent list.
+- Prefer variety across topics.
+- Keep the question concise and practical.`;
+
+  try {
+    const response = await callOpenAI(prompt, 120, {
+      temperature: 1,
+      presence_penalty: 0.8,
+      frequency_penalty: 0.4,
+    });
+    const jsonMatch = response.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const question = JSON.parse(jsonMatch[0]);
+      rememberPracticeQuestion(question.question);
+      return question;
+    }
+    throw new Error('Invalid response format');
+  } catch (error) {
+    console.error('Question generation error:', error.message);
+    throw error;
+  }
+}
+
+async function generateInterviewQuestion() {
+  const recentList = recentPracticeQuestions.length > 0
+    ? recentPracticeQuestions.map((item, index) => `${index + 1}. ${item}`).join('\n')
+    : 'None yet';
+
+  const category = nextInterviewCategory;
+  nextInterviewCategory = nextInterviewCategory === 'dsa' ? 'hr' : 'dsa';
+  const categoryLabel = category === 'dsa' ? 'DSA' : 'HR';
+
+  const prompt = `Generate one NEW ${categoryLabel} interview question in JSON format.
+
+Do not repeat any of these recent questions:
+${recentList}
+
+Return ONLY valid JSON with these fields:
+{
+  "category": "${categoryLabel}",
   "question": "one clear interview question",
   "difficulty": "easy, medium, or hard",
   "tags": ["2 to 4 short tags"]
-}`;
+}
+
+Rules:
+- Ask a fresh question that is meaningfully different from the recent list.
+- Stay focused on ${categoryLabel} interview style.
+- Prefer variety across topics.
+- Keep the question concise and practical.`;
 
   try {
-    const response = await callOpenAI(prompt, 120);
+    const response = await callOpenAI(prompt, 120, {
+      temperature: 1,
+      presence_penalty: 0.8,
+      frequency_penalty: 0.4,
+    });
     const jsonMatch = response.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const question = JSON.parse(jsonMatch[0]);
+      rememberPracticeQuestion(question.question);
+      return question;
     }
     throw new Error('Invalid response format');
   } catch (error) {
@@ -115,4 +201,5 @@ module.exports = {
   getResumeFeedback,
   getInterviewFeedback,
   generatePracticeQuestion,
+  generateInterviewQuestion,
 };

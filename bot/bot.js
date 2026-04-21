@@ -1,7 +1,7 @@
 const { Telegraf } = require('telegraf');
 const axios = require('axios');
 const pdfParse = require('pdf-parse');
-const { getResumeFeedback, getInterviewFeedback, generatePracticeQuestion } = require('../services/aiService');
+const { getResumeFeedback, getInterviewFeedback, generatePracticeQuestion, generateInterviewQuestion } = require('../services/aiService');
 
 const API_BASE_URL = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
 const userState = new Map();
@@ -44,10 +44,10 @@ bot.command('resume', async (ctx) => {
 // Interview feedback
 bot.command('interview', async (ctx) => {
   try {
-    const question = await generatePracticeQuestion();
+    const question = await generateInterviewQuestion();
     userState.set(ctx.from.id, { mode: 'interview', question });
     ctx.reply(
-      `Question (${question.difficulty}):\n\n${question.question}\n\n` +
+      `Question (${question.category} | ${question.difficulty}):\n\n${question.question}\n\n` +
       `Reply with your answer in text.`
     );
   } catch (error) {

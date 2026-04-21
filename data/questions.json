@@ -1,37 +1,142 @@
 [
   {
     "id": 1,
-    "category": "behavioral",
-    "question": "Tell me about a time you had to work in a team with conflicting opinions. How did you handle it?",
-    "difficulty": "medium",
-    "tags": ["teamwork", "communication"]
+    "category": "dsa",
+    "question": "What is the time complexity of linear search?",
+    "difficulty": "easy",
+    "tags": ["arrays", "searching"]
   },
   {
     "id": 2,
-    "category": "technical",
-    "question": "Explain the difference between let, const, and var in JavaScript.",
+    "category": "dsa",
+    "question": "What is the time complexity of binary search?",
     "difficulty": "easy",
-    "tags": ["javascript", "fundamentals"]
+    "tags": ["searching", "divide and conquer"]
   },
   {
     "id": 3,
-    "category": "behavioral",
-    "question": "Describe a project where you took initiative and led without being asked. What was the outcome?",
-    "difficulty": "medium",
-    "tags": ["leadership", "initiative"]
+    "category": "dsa",
+    "question": "What is the difference between an array and a linked list?",
+    "difficulty": "easy",
+    "tags": ["arrays", "linked list"]
   },
   {
     "id": 4,
-    "category": "technical",
-    "question": "How would you optimize a slow database query?",
-    "difficulty": "hard",
-    "tags": ["database", "optimization"]
+    "category": "dsa",
+    "question": "What is a stack and where is it used?",
+    "difficulty": "easy",
+    "tags": ["stack", "data structures"]
   },
   {
     "id": 5,
-    "category": "behavioral",
-    "question": "Tell me about your biggest failure and what you learned from it.",
-    "difficulty": "hard",
-    "tags": ["growth", "learning"]
+    "category": "dsa",
+    "question": "What is a queue and how does it work?",
+    "difficulty": "easy",
+    "tags": ["queue", "data structures"]
+  },
+  {
+    "id": 6,
+    "category": "dsa",
+    "question": "What is the difference between BFS and DFS?",
+    "difficulty": "medium",
+    "tags": ["graphs", "traversal"]
+  },
+  {
+    "id": 7,
+    "category": "dsa",
+    "question": "How do you detect a cycle in a linked list?",
+    "difficulty": "medium",
+    "tags": ["linked list", "two pointers"]
+  },
+  {
+    "id": 8,
+    "category": "dsa",
+    "question": "How do you reverse a linked list?",
+    "difficulty": "medium",
+    "tags": ["linked list", "pointers"]
+  },
+  {
+    "id": 9,
+    "category": "dsa",
+    "question": "What is recursion and what is a base case?",
+    "difficulty": "easy",
+    "tags": ["recursion", "basics"]
+  },
+  {
+    "id": 10,
+    "category": "dsa",
+    "question": "What is the difference between merge sort and quick sort?",
+    "difficulty": "medium",
+    "tags": ["sorting", "divide and conquer"]
+  },
+  {
+    "id": 11,
+    "category": "dsa",
+    "question": "What is a hash table and why is it useful?",
+    "difficulty": "easy",
+    "tags": ["hashing", "maps"]
+  },
+  {
+    "id": 12,
+    "category": "dsa",
+    "question": "How do you find the middle element of a linked list?",
+    "difficulty": "easy",
+    "tags": ["linked list", "two pointers"]
+  },
+  {
+    "id": 13,
+    "category": "dsa",
+    "question": "What is the difference between a stack and a queue?",
+    "difficulty": "easy",
+    "tags": ["stack", "queue"]
+  },
+  {
+    "id": 14,
+    "category": "dsa",
+    "question": "How do you check if a string is a palindrome?",
+    "difficulty": "easy",
+    "tags": ["strings", "two pointers"]
+  },
+  {
+    "id": 15,
+    "category": "dsa",
+    "question": "What is the time complexity of inserting into a hash table on average?",
+    "difficulty": "easy",
+    "tags": ["hashing", "complexity"]
+  },
+  {
+    "id": 16,
+    "category": "dsa",
+    "question": "How do you find the maximum element in an array?",
+    "difficulty": "easy",
+    "tags": ["arrays", "searching"]
+  },
+  {
+    "id": 17,
+    "category": "dsa",
+    "question": "What is a binary tree?",
+    "difficulty": "easy",
+    "tags": ["trees", "basics"]
+  },
+  {
+    "id": 18,
+    "category": "dsa",
+    "question": "What is the difference between a binary tree and a binary search tree?",
+    "difficulty": "medium",
+    "tags": ["trees", "bst"]
+  },
+  {
+    "id": 19,
+    "category": "dsa",
+    "question": "How do you find the second largest number in an array?",
+    "difficulty": "easy",
+    "tags": ["arrays", "logic"]
+  },
+  {
+    "id": 20,
+    "category": "dsa",
+    "question": "What is the time complexity of traversing a linked list?",
+    "difficulty": "easy",
+    "tags": ["linked list", "complexity"]
   }
 ]
