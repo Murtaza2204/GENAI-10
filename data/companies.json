@@ -1,0 +1,26 @@
+{
+  "TCS": {
+    "topics": ["Aptitude", "OOP", "SQL"],
+    "questions": [
+      "What is normalization?",
+      "Explain OOP principles",
+      "Difference between stack and queue"
+    ]
+  },
+  "INFOSYS": {
+    "topics": ["DSA", "DBMS"],
+    "questions": [
+      "What is a linked list?",
+      "What is indexing in DB?",
+      "Explain recursion"
+    ]
+  },
+  "STARTUP": {
+    "topics": ["System Design", "DSA"],
+    "questions": [
+      "Design a URL shortener",
+      "Find cycle in graph",
+      "How would you scale a chat app?"
+    ]
+  }
+}
